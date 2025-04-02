@@ -27,7 +27,12 @@ app.use(
   paymentControllers.handelPaymentWebhook
 );
 
-app.use(cors());
+const corsOptions = {
+  origin: ["http://localhost:3000", "https://music-app-dashboard.vercel.app"],
+  methods: ["GET", "POST", "PUT", "DELETE", "PATCH"],
+};
+
+app.use(cors(corsOptions));
 app.use(express.json());
 app.use(bodyParser.json({ limit: "1000mb" }));
 app.use(bodyParser.urlencoded({ limit: "1000mb", extended: true }));
