@@ -9,6 +9,10 @@
 - **Dashboard GitHub:** [GitHub Repo](https://github.com/ruhulamin-et15/music_app_dashboard)
 - **Backend GitHub:** [GitHub Repo](https://github.com/ruhulamin-et15/music_app_backend)
 
+## Admin Login Credentials
+username: ruhulamin.et15@gmail.com
+password: 123456
+
 ## 🛠️ Features
 - Secure authentication system
 - Music, Teacher, User and Plan Manage
