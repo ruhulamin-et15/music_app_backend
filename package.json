@@ -1,0 +1,48 @@
+{
+  "name": "lunatix-backend",
+  "version": "1.0.0",
+  "main": "server.js",
+  "scripts": {
+    "start:prod": "node ./dist/server.js",
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "ts-node-dev --respawn --transpile-only src/server.ts",
+    "build": "tsc",
+    "postinstall": "prisma generate"
+  },
+  "keywords": [],
+  "author": "Ruhul-Amin",
+  "license": "ISC",
+  "description": "lunatix-backend",
+  "devDependencies": {
+    "@types/bcryptjs": "^2.4.6",
+    "@types/cors": "^2.8.17",
+    "@types/express": "^4.17.21",
+    "@types/node": "^20.14.11",
+    "@types/node-cron": "^3.0.11",
+    "@types/nodemailer": "^6.4.17",
+    "prisma": "^5.20.0",
+    "ts-node": "^10.9.2",
+    "ts-node-dev": "^2.0.0",
+    "typescript": "^5.5.3"
+  },
+  "dependencies": {
+    "@aws-sdk/client-s3": "^3.723.0",
+    "@aws-sdk/lib-storage": "^3.723.0",
+    "@prisma/client": "^5.20.0",
+    "@types/jsonwebtoken": "^9.0.6",
+    "@types/multer": "^1.4.11",
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
+    "express": "^4.19.2",
+    "http-status": "^1.7.4",
+    "jsonwebtoken": "^9.0.2",
+    "mongodb": "^6.8.0",
+    "multer": "^1.4.5-lts.1",
+    "node-cron": "^3.0.3",
+    "nodemailer": "^6.9.16",
+    "nodemon": "^3.1.4",
+    "stripe": "^17.5.0",
+    "zod": "^3.23.8"
+  }
+}

@@ -1,0 +1,182 @@
+datasource db {
+  provider = "mongodb"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model User {
+  id            String         @id @default(auto()) @map("_id") @db.ObjectId
+  userName      String
+  profileImage  String?
+  email         String         @unique
+  password      String?
+  role          UserRole       @default(USER)
+  location      Json?
+  gender        Gender?
+  customerId    String?
+  designation   String?
+  about         String?
+  userId        String?
+  subscriptions Boolean        @default(false)
+  status        UserStatus     @default(ACTIVE)
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+  subscription  Subscription[]
+  review        Review[]
+  class         Class[]
+  watchlist     Watchlist[]
+
+  @@map("users")
+}
+
+model Teacher {
+  id           String   @id @default(auto()) @map("_id") @db.ObjectId
+  teacherName  String
+  designation  String
+  email        String   @unique
+  profileImage String?
+  about        String
+  role         UserRole @default(TEACHER)
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+  course       Course[]
+  review       Review[]
+
+  @@map("teachers")
+}
+
+model Subscription {
+  id              String             @id @default(auto()) @map("_id") @db.ObjectId
+  paymentMethodId String
+  userId          String?            @db.ObjectId
+  priceId         String
+  subscriptionId  String
+  planType        String
+  status          SubscriptionStatus @default(ACTIVE)
+  user            User?              @relation(fields: [userId], references: [id])
+  createdAt       DateTime           @default(now())
+  updatedAt       DateTime           @updatedAt
+
+  @@map("subscriptions")
+}
+
+model Course {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  teacherId  String?  @db.ObjectId
+  courseName String
+  about      String
+  image      String?
+  teacher    Teacher? @relation(fields: [teacherId], references: [id])
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+  class      Class[]
+
+  @@map("courses")
+}
+
+model Class {
+  id         String      @id @default(auto()) @map("_id") @db.ObjectId
+  courseId   String?     @db.ObjectId
+  userId     String?     @db.ObjectId
+  thumbnail  String
+  classVideo String
+  className  String
+  classNo    Int
+  summary    String
+  createdAt  DateTime    @default(now())
+  updatedAt  DateTime    @updatedAt
+  course     Course?     @relation(fields: [courseId], references: [id])
+  user       User?       @relation(fields: [userId], references: [id])
+  review     Review[]
+  watchlist  Watchlist[]
+
+  @@map("classes")
+}
+
+model Watchlist {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId    String?  @db.ObjectId
+  classId   String?  @db.ObjectId
+  watchtime String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  class     Class?   @relation(fields: [classId], references: [id])
+  user      User?    @relation(fields: [userId], references: [id])
+
+  @@map("watchlists")
+}
+
+model Review {
+  id         String   @id @default(auto()) @map("_id") @db.ObjectId
+  userId     String?  @db.ObjectId
+  teacherId  String?  @db.ObjectId
+  classId    String?  @db.ObjectId
+  reviewText String
+  rating     Int
+  user       User?    @relation(fields: [userId], references: [id])
+  class      Class?   @relation(fields: [classId], references: [id])
+  teacher    Teacher? @relation(fields: [teacherId], references: [id])
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
+
+  @@map("reviews")
+}
+
+model Otp {
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  email     String   @unique
+  otpCode   String
+  expiresAt DateTime
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("otps")
+}
+
+model Plan {
+  id          String       @id @default(auto()) @map("_id") @db.ObjectId
+  planType    String
+  amount      Int
+  description String
+  priceId     String
+  productId   String
+  active      Boolean      @default(true)
+  currency    String
+  interval    PlanInterval @default(month)
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+
+  @@map("plans")
+}
+
+enum PlanInterval {
+  month
+  year
+}
+
+enum UserStatus {
+  ACTIVE
+  BLOCKED
+  DELETED
+}
+
+enum Gender {
+  MALE
+  FEMALE
+  OTHER
+}
+
+enum UserRole {
+  ADMIN
+  USER
+  TEACHER
+}
+
+enum SubscriptionStatus {
+  ACTIVE
+  INACTIVE
+  EXPIRED
+}
